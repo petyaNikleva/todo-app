@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef, } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { deleteToDo, updateToDo } from '../actions';
 
 import { Box, Checkbox, TableCell, TableRow, Typography, Input } from '@mui/material';
@@ -12,8 +12,8 @@ import ClearIcon from '@mui/icons-material/Clear';
 const ToDoTableRow = ({ element }) => {
   const dispatch = useDispatch();
   const [isChecked, setIsChecked] = useState(element.isCompleted);
-  const [updatedText, setUpdatedText] = useState(element.data.task)
-  const [typographyText, setTypographyText] = useState(element.data.task)
+  const [updatedText, setUpdatedText] = useState(element.task)
+  const [typographyText, setTypographyText] = useState(element.task)
   const [isEditing, setEditing] = useState(false);
   const [display, setDisplay] = useState("block");
   const inputRef = useRef(null);
@@ -25,25 +25,28 @@ const ToDoTableRow = ({ element }) => {
   };
 
   useEffect(() => {
+    console.log("table row", element)
     if (isEditing) {
       setDisplay("none")
     } else {
       setDisplay("block")
     }
-  }, [isEditing]);
+    setTypographyText(element.task);
+    setUpdatedText(element.task);
+    setIsChecked(element.isCompleted)
+  }, [isEditing, element]);
+
 
   const inputChangeHandler = (e) => {
     setUpdatedText(e.target.value);
   }
 
   const onSaveHandler = () => {
-    setTypographyText(updatedText);
     toggleEditing();
-    dispatch(updateToDo(element.id, { task: updatedText }));
+    dispatch(updateToDo(element.id, { task: updatedText, isCompleted: isChecked }));
   }
 
   const onDiscardChanges = () => {
-    setUpdatedText(typographyText);
     toggleEditing();
   }
 
@@ -68,13 +71,11 @@ const ToDoTableRow = ({ element }) => {
       <TableCell align='center' padding="checkbox">
         <Checkbox
           checked={!!isChecked}
-          onChange={() => setIsChecked(!isChecked)}
+          onChange={(e) => dispatch(updateToDo(element.id, { isCompleted: !isChecked, task: element.task }))}
         />
       </TableCell>
       <TableCell align='center' >
         <CreateIcon sx={{ cursor: "pointer" }} onClick={toggleEditing} />
-        <CreateIcon sx={{ cursor: "pointer" }} onClick={() => dispatch(updateToDo(element.id, { task: 'ggg' }))} />
-        {/* <CreateIcon sx={{ cursor: "pointer" }} onClick={() => dispatch(updateToDo(element.id, { task: 'newTask' }))} /> */}
       </TableCell>
       <TableCell align='center'>
         <DeleteIcon sx={{ cursor: "pointer" }} onClick={() => dispatch(deleteToDo(element.id))} />

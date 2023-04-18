@@ -4,15 +4,13 @@ export const addToDo = (data) => {
     payload: {
       id: new Date().getTime().toString(),
       isCompleted: false,
-      isEditing: false,
-      data
+      task: data
     }
   }
 }
 
 export const updateToDo = (id, data) => {
-  console.log(id)
-  console.log(data)
+
   return {
     type: "UPDATE_TODO",
     id,

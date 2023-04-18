@@ -5,29 +5,28 @@ const initialInput = {
 const allReducers = (state = initialInput, action) => {
   switch (action.type) {
     case "ADD_TODO":
-      const { data, id } = action.payload;
       return {
         ...state,
         todolist: [
-          ...state.todolist,
-          {
-            id,
-            data
-          }
+          ...state.todolist, action.payload
         ]
       }
 
     case "UPDATE_TODO":
-      state.todolist.map(element => {
-        return (element.id === action.id ? (element.data = action.data) : (element = element))
+      console.log('update', action.payload)
+      const updatedList = state.todolist.map(todo => {
+        return (todo.id === action.id ? (
+          { ...todo, task: action.data.task, isCompleted: action.data.isCompleted })
+          : (todo = todo))
       })
+      console.log(updatedList)
       return {
         ...state,
-        todolist: [...state.todolist]
+        todolist: updatedList
       }
 
     case "DELETE_TODO":
-      const newToDoList = state.todolist.filter(element => element.id !== action.id)
+      const newToDoList = state.todolist.filter(todo => todo.id !== action.id)
       console.log(state)
       return {
         ...state,
