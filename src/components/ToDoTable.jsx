@@ -1,8 +1,7 @@
+import { useState } from "react";
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material"
 import ToDoTableRow from "./ToDoTableRow";
-import store from "../reducers/reducers";
-import { useState } from "react";
-
+import store from "../reducers";
 
 const ToDoTable = () => {
   const [todolist, setToDoList] = useState([])

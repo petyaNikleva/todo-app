@@ -1,19 +1,19 @@
 import { useEffect, useState, useRef, } from 'react';
-import { updateToDo, deleteToDo } from '../actions';
-import store from "../reducers/reducers";
-
 import { Box, Checkbox, TableCell, TableRow, Typography, Input } from '@mui/material';
 import CreateIcon from '@mui/icons-material/Create';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SaveIcon from '@mui/icons-material/Save';
 import ClearIcon from '@mui/icons-material/Clear';
 
+import { updateToDo, deleteToDo } from '../actions';
+import store from "../reducers";
+
 const ToDoTableRow = ({ todo }) => {
   const [isChecked, setIsChecked] = useState(todo.isCompleted);
   const [updatedText, setUpdatedText] = useState(todo.task)
   const [typographyText, setTypographyText] = useState(todo.task)
   const [isEditing, setEditing] = useState(false);
-  const [display, setDisplay] = useState("block");
+  const [displayVisible, setDisplayVisible] = useState("block");
   const inputRef = useRef(null);
 
   let crossText = isChecked === true ? "line-through" : "none";
@@ -24,9 +24,9 @@ const ToDoTableRow = ({ todo }) => {
 
   useEffect(() => {
     if (isEditing) {
-      setDisplay("none")
+      setDisplayVisible("none")
     } else {
-      setDisplay("block")
+      setDisplayVisible("block")
     }
     setTypographyText(todo.task);
     setUpdatedText(todo.task);
@@ -50,7 +50,7 @@ const ToDoTableRow = ({ todo }) => {
   return (
     <TableRow>
       <TableCell align='center'>
-        <Typography type='input' sx={{ textDecoration: crossText, display: { display } }} >{typographyText}</Typography>
+        <Typography sx={{ textDecoration: crossText, display: displayVisible }} >{typographyText}</Typography>
         {isEditing &&
           <Box>
             <Input
