@@ -1,20 +1,18 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { Button, TextField } from '@mui/material';
-
-import { addToDo } from '../actions';
 import AddIcon from '@mui/icons-material/Add';
+import store from '../reducers/reducers';
+import { addToDo } from '../actions';
 
 
 const ToDoForm = () => {
   const [inputData, setInputData] = useState("")
 
-  const dispatch = useDispatch();
-
   const handleSumbit = (e) => {
     e.preventDefault();
     if (!inputData) return;
-    dispatch(addToDo(inputData))
+
+    store.dispatch(addToDo(inputData))
     setInputData("")
   }
 

@@ -1,10 +1,17 @@
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material"
-import { useSelector } from "react-redux";
 import ToDoTableRow from "./ToDoTableRow";
+import store from "../reducers/reducers";
+import { useState } from "react";
 
 
 const ToDoTable = () => {
-  const todolist = useSelector((state) => state.allReducers.todolist);
+  const [todolist, setToDoList] = useState([])
+
+  function onStoreChange() {
+    setToDoList(store.getState().todolist)
+  }
+
+  store.subscribe(onStoreChange);
 
   return (
     <TableContainer component={Paper} sx={{ mt: 2 }}>
@@ -19,8 +26,8 @@ const ToDoTable = () => {
         </TableHead>
         <TableBody >
           {
-            todolist.map((element) => (
-              <ToDoTableRow key={element.id} element={element} />
+            todolist.map((todo) => (
+              <ToDoTableRow key={todo.id} todo={todo} />
             ))
           }
         </TableBody>

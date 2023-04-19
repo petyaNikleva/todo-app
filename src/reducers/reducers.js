@@ -1,41 +1,44 @@
-const initialInput = {
+import { handleActions } from "redux-actions"
+import { createStore } from "redux"
+import { addToDo, updateToDo, deleteToDo } from './../actions/index'
+
+const defaultState = {
   todolist: []
 }
 
-const allReducers = (state = initialInput, action) => {
-  switch (action.type) {
-    case "ADD_TODO":
+const reducers = handleActions(
+  {
+    [addToDo]: (state, { payload }) => {
       return {
         ...state,
         todolist: [
-          ...state.todolist, action.payload
+          ...state.todolist, payload
         ]
       }
-
-    case "UPDATE_TODO":
-      console.log('update', action.payload)
+    },
+    [updateToDo]: (state, { payload }) => {
       const updatedList = state.todolist.map(todo => {
-        return (todo.id === action.id ? (
-          { ...todo, task: action.data.task, isCompleted: action.data.isCompleted })
+        return (todo.id === payload.id ? (
+          { ...todo, task: payload.data.task, isCompleted: payload.data.isCompleted })
           : (todo = todo))
       })
-      console.log(updatedList)
       return {
         ...state,
         todolist: updatedList
       }
-
-    case "DELETE_TODO":
-      const newToDoList = state.todolist.filter(todo => todo.id !== action.id)
-      console.log(state)
+    },
+    [deleteToDo]: (state, { payload }) => {
+      const newToDoList = state.todolist.filter(todo => todo.id !== payload.id);
       return {
         ...state,
         todolist: newToDoList
       }
-    default:
-      return state;
-  }
-}
+    }
+  },
+  defaultState
+)
 
-export default allReducers;
 
+const store = createStore(reducers, defaultState);
+
+export default store;
