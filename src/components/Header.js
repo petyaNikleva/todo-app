@@ -5,7 +5,7 @@ const Header = () => {
   return (
     <Box sx={{ my: 4, }}>
       <Typography color="grey" variant="h4" component="h1" gutterBottom>
-        To Do Application
+        Todo
       </Typography>
     </Box>
 
