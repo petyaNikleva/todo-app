@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef, } from 'react';
 import { useDispatch } from 'react-redux';
-import { Box, Checkbox, TableCell, TableRow, Typography, Input } from '@mui/material';
+import { Box, Checkbox, TableCell, TableRow, Input } from '@mui/material';
 import CreateIcon from '@mui/icons-material/Create';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SaveIcon from '@mui/icons-material/Save';
@@ -11,7 +11,6 @@ import { updateToDo, deleteToDo } from '../actions';
 const ToDoTableRow = ({ todo }) => {
   const [isChecked, setIsChecked] = useState(todo.isCompleted);
   const [updatedText, setUpdatedText] = useState(todo.task)
-  const [typographyText, setTypographyText] = useState(todo.task)
   const [isEditing, setEditing] = useState(false);
   const [displayVisible, setDisplayVisible] = useState("block");
   const inputRef = useRef(null);
@@ -29,7 +28,6 @@ const ToDoTableRow = ({ todo }) => {
     } else {
       setDisplayVisible("block")
     }
-    setTypographyText(todo.task);
     setUpdatedText(todo.task);
     setIsChecked(todo.isCompleted)
   }, [isEditing, todo])
@@ -49,8 +47,8 @@ const ToDoTableRow = ({ todo }) => {
 
   return (
     <TableRow>
-      <TableCell align='center'>
-        <Typography sx={{ textDecoration: crossText, display: displayVisible }} >{typographyText}</Typography>
+      <TableCell>
+        <Input value={updatedText} sx={{ textDecoration: crossText, display: displayVisible }} readOnly disableUnderline />
         {isEditing &&
           <Box>
             <Input

@@ -11,7 +11,7 @@ const ToDoTable = () => {
         <Table>
           <TableHead sx={{ backgroundColor: "#aeeaff" }}>
             <TableRow >
-              <TableCell align='center'>Task</TableCell>
+              <TableCell>Task</TableCell>
               <TableCell align='center'>Completed</TableCell>
               <TableCell align='center'>Update</TableCell>
               <TableCell align='center'>Delete</TableCell>
