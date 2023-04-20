@@ -32,8 +32,7 @@ const ToDoTableRow = ({ todo }) => {
     setTypographyText(todo.task);
     setUpdatedText(todo.task);
     setIsChecked(todo.isCompleted)
-  }, [isEditing, todo]);
-
+  }, [isEditing, todo])
 
   const inputChangeHandler = (e) => {
     setUpdatedText(e.target.value);
