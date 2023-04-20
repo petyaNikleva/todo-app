@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef, } from 'react';
+import { useDispatch } from 'react-redux';
 import { Box, Checkbox, TableCell, TableRow, Typography, Input } from '@mui/material';
 import CreateIcon from '@mui/icons-material/Create';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -6,7 +7,6 @@ import SaveIcon from '@mui/icons-material/Save';
 import ClearIcon from '@mui/icons-material/Clear';
 
 import { updateToDo, deleteToDo } from '../actions';
-import store from "../reducers";
 
 const ToDoTableRow = ({ todo }) => {
   const [isChecked, setIsChecked] = useState(todo.isCompleted);
@@ -15,6 +15,7 @@ const ToDoTableRow = ({ todo }) => {
   const [isEditing, setEditing] = useState(false);
   const [displayVisible, setDisplayVisible] = useState("block");
   const inputRef = useRef(null);
+  const dispatch = useDispatch();
 
   let crossText = isChecked === true ? "line-through" : "none";
 
@@ -40,7 +41,7 @@ const ToDoTableRow = ({ todo }) => {
 
   const onSaveHandler = () => {
     toggleEditing();
-    store.dispatch(updateToDo(todo.id, { task: updatedText, isCompleted: isChecked }));
+    dispatch(updateToDo(todo.id, { task: updatedText, isCompleted: isChecked }));
   }
 
   const onDiscardChanges = () => {
@@ -68,14 +69,14 @@ const ToDoTableRow = ({ todo }) => {
       <TableCell align='center' padding="checkbox">
         <Checkbox
           checked={!!isChecked}
-          onChange={(e) => store.dispatch(updateToDo(todo.id, { isCompleted: !isChecked, task: todo.task }))}
+          onChange={(e) => dispatch(updateToDo(todo.id, { isCompleted: !isChecked, task: todo.task }))}
         />
       </TableCell>
       <TableCell align='center' >
         <CreateIcon sx={{ cursor: "pointer" }} onClick={toggleEditing} />
       </TableCell>
       <TableCell align='center'>
-        <DeleteIcon sx={{ cursor: "pointer" }} onClick={() => store.dispatch(deleteToDo(todo.id))} />
+        <DeleteIcon sx={{ cursor: "pointer" }} onClick={() => dispatch(deleteToDo(todo.id))} />
       </TableCell>
     </TableRow >
   )

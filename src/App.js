@@ -1,13 +1,19 @@
-import './App.css';
 import ToDoTable from './components/ToDoTable';
 import ToDoForm from './components/ToDoForm';
+import Header from './components/Header';
+import { Box, Container } from '@mui/material';
+
 
 function App() {
+
   return (
-    <div className="App">
-      <ToDoForm />
-      <ToDoTable />
-    </div>
+    <Container maxWidth="sm">
+      <Box sx={{ my: 4, display: "flex", flexDirection: "column", alignItems: "center" }}>
+        <Header />
+        <ToDoForm />
+        <ToDoTable />
+      </Box>
+    </Container>
   )
 }
 
