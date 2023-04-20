@@ -8,7 +8,7 @@ const ToDoTable = () => {
   return (
     <TableContainer component={Paper} sx={{ mt: 4 }}>
       {todolist.length > 0 && (
-        <Table sx={{ minWidth: 450 }} >
+        <Table>
           <TableHead sx={{ backgroundColor: "#aeeaff" }}>
             <TableRow >
               <TableCell align='center'>Task</TableCell>

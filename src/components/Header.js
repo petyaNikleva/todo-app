@@ -1,11 +1,10 @@
 import { Box, Typography } from "@mui/material"
 
-
 const Header = () => {
   return (
     <Box sx={{ my: 4, }}>
       <Typography color="grey" variant="h4" component="h1" gutterBottom>
-        Todo
+        Todos
       </Typography>
     </Box>
 
