@@ -1,5 +1,4 @@
 import { handleActions } from "redux-actions"
-import { createStore } from "redux"
 import { addToDo, updateToDo, deleteToDo } from '../actions'
 
 const defaultState = {
@@ -37,6 +36,4 @@ const reducers = handleActions(
   defaultState
 )
 
-const store = createStore(reducers, defaultState);
-
-export default store;
+export default reducers;
