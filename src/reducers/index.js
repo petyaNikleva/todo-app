@@ -27,9 +27,12 @@ const reducers = handleActions(
       }
     },
     [deleteToDo]: (state, { payload }) => {
+      const indexToRemove = state.todolist.findIndex(todo => todo.id === payload.id);
+      const resultArr = [...state.todolist];
+      resultArr.splice(indexToRemove, 1);
       return {
         ...state,
-        todolist: state.todolist.filter(todo => todo.id !== payload.id)
+        todolist: resultArr
       }
     }
   },

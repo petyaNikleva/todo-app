@@ -1,5 +1,7 @@
 import { useEffect, useState, useRef, } from 'react';
 import { useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
+
 import { Box, Checkbox, TableCell, TableRow, Input } from '@mui/material';
 import CreateIcon from '@mui/icons-material/Create';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -16,7 +18,7 @@ const ToDoTableRow = ({ todo }) => {
   const inputRef = useRef(null);
   const dispatch = useDispatch();
 
-  let crossText = isChecked === true ? "line-through" : "none";
+  const crossText = isChecked === true ? "line-through" : "none";
 
   const toggleEditing = () => {
     setEditing(!isEditing);
@@ -77,6 +79,10 @@ const ToDoTableRow = ({ todo }) => {
       </TableCell>
     </TableRow >
   )
+};
+
+ToDoTableRow.propTypes = {
+  todo: PropTypes.object.isRequired
 }
 
 export default ToDoTableRow;
