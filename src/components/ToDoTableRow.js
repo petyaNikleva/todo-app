@@ -19,9 +19,9 @@ const ToDoTableRow = ({ todo }) => {
   const crossText = isChecked === true ? "line-through" : "none";
 
   useEffect(() => {
-    setEditing(todo.isEditing);
+    setEditing(todo.isEditing)
     setUpdatedText(todo.task);
-    setIsChecked(todo.isCompleted);
+    setIsChecked(todo.isCompleted)
   }, [todo])
 
   const InputReadOnly = () => {
