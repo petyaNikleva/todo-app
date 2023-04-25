@@ -13,66 +13,47 @@ import { updateToDo, deleteToDo } from '../actions';
 const ToDoTableRow = ({ todo }) => {
   const [isChecked, setIsChecked] = useState(todo.isCompleted);
   const [updatedText, setUpdatedText] = useState(todo.task)
-  const [isEditing, setEditing] = useState(false);
-  const [displayVisible, setDisplayVisible] = useState("block");
-  const inputRef = useRef(null);
+  const [isEditing, setEditing] = useState(todo.isEditMode);
   const dispatch = useDispatch();
 
   const crossText = isChecked === true ? "line-through" : "none";
 
-  const toggleEditing = () => {
-    setEditing(!isEditing);
-  };
-
   useEffect(() => {
-    if (isEditing) {
-      setDisplayVisible("none")
-    } else {
-      setDisplayVisible("block")
-    }
+    setEditing(todo.isEditing)
     setUpdatedText(todo.task);
     setIsChecked(todo.isCompleted)
-  }, [isEditing, todo])
+  }, [todo])
 
-  const inputChangeHandler = (e) => {
-    setUpdatedText(e.target.value);
+  const InputReadOnly = () => {
+    return <Input value={updatedText} sx={{ textDecoration: crossText, }} readOnly disableUnderline />
   }
 
-  const onSaveHandler = () => {
-    toggleEditing();
-    dispatch(updateToDo(todo.id, { task: updatedText, isCompleted: isChecked }));
-  }
-
-  const onDiscardChanges = () => {
-    toggleEditing();
+  const InputEditMode = () => {
+    return <Box>
+      <Input
+        autoFocus
+        sx={{ textDecoration: crossText }}
+        value={updatedText}
+        onChange={e => setUpdatedText(e.target.value)}
+      />
+      <SaveIcon sx={{ cursor: "pointer" }} onClick={() => dispatch(updateToDo(todo.id, { task: updatedText, isCompleted: isChecked, isEditing: !isEditing }))} />
+      <ClearIcon sx={{ cursor: "pointer", ml: 1 }} onClick={() => dispatch(updateToDo(todo.id, { isCompleted: isChecked, isEditing: !isEditing, task: todo.task }))} />
+    </Box>
   }
 
   return (
     <TableRow>
       <TableCell>
-        <Input value={updatedText} sx={{ textDecoration: crossText, display: displayVisible }} readOnly disableUnderline />
-        {isEditing &&
-          <Box>
-            <Input
-              autoFocus
-              sx={{ textDecoration: crossText }}
-              value={updatedText}
-              ref={inputRef}
-              onChange={e => inputChangeHandler(e)}
-            />
-            <SaveIcon sx={{ cursor: "pointer" }} onClick={onSaveHandler} />
-            <ClearIcon sx={{ cursor: "pointer", ml: 1 }} onClick={onDiscardChanges} />
-          </Box>
-        }
+        {todo.isEditing ? <InputEditMode /> : <InputReadOnly />}
       </TableCell>
       <TableCell align='center' padding="checkbox">
         <Checkbox
           checked={!!isChecked}
-          onChange={(e) => dispatch(updateToDo(todo.id, { isCompleted: !isChecked, task: todo.task }))}
+          onChange={(e) => dispatch(updateToDo(todo.id, { isCompleted: !isChecked, isEditing: todo.isEditing, task: todo.task }))}
         />
       </TableCell>
       <TableCell align='center' >
-        <CreateIcon sx={{ cursor: "pointer" }} onClick={toggleEditing} />
+        <CreateIcon sx={{ cursor: "pointer" }} onClick={() => dispatch(updateToDo(todo.id, { isCompleted: isChecked, isEditing: !isEditing, task: todo.task }))} />
       </TableCell>
       <TableCell align='center'>
         <DeleteIcon sx={{ cursor: "pointer" }} onClick={() => dispatch(deleteToDo(todo.id))} />

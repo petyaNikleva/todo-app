@@ -4,6 +4,7 @@ export const addToDo = createAction("ADD_TODO", (data) => {
   return {
     id: new Date().getTime().toString(),
     isCompleted: false,
+    isEditing: false,
     task: data
   };
 });

@@ -18,7 +18,7 @@ const reducers = handleActions(
     [updateToDo]: (state, { payload }) => {
       const updatedList = state.todolist.map(todo => {
         return (todo.id === payload.id
-          ? ({ ...todo, task: payload.data.task, isCompleted: payload.data.isCompleted })
+          ? ({ ...todo, task: payload.data.task, isCompleted: payload.data.isCompleted, isEditing: payload.data.isEditing })
           : (todo = todo))
       })
       return {
